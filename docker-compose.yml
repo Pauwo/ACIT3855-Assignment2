@@ -151,6 +151,22 @@ services:
     networks:
       - mynetwork
 
+    consistency_check:
+      restart: always
+      build:
+        context: consistency_check
+        dockerfile: Dockerfile
+      depends_on:
+        - analyzer
+        - processing
+        - storage
+      volumes:
+        - ./config:/app/config
+        - ./logs:/app/logs
+        - ./data/consistency_check:/app/data 
+      networks:
+        - mynetwork
+
 volumes:
   zookeeper-data: 
 

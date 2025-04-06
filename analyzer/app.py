@@ -165,6 +165,42 @@ def get_random_passenger_checkin():
     return random.choice(events), 200
 
 
+def get_events():
+    """
+    GET /events
+    """
+    client = KafkaClient(hosts=f"{APP_CONFIG['events']['hostname']}:{APP_CONFIG['events']['port']}")
+    topic = client.topics[str.encode(APP_CONFIG["events"]["topic"])]
+    consumer = topic.get_simple_consumer(
+        reset_offset_on_start=True,
+        consumer_timeout_ms=1000
+    )
+    
+    events = []
+    for msg in consumer:
+        message = msg.value.decode("utf-8")
+        data = json.loads(message)
+        if data.get("type") == "flight_schedule":
+            event_id = data.get("payload", {}).get("flight_id")
+            events.append({
+                "event_id": event_id,
+                "trace_id": data.get("trace_id"),
+                "type": "flight_schedule"
+            })
+        elif data.get("type") == "passenger_checkin":
+            event_id = data.get("payload", {}).get("checkin_id")
+            events.append({
+                "event_id": event_id,
+                "trace_id": data.get("trace_id"),
+                "type": "passenger_checkin"
+            })
+    # for msg in consumer:
+    #     message = msg.value.decode("utf-8")
+    #     data = json.loads(message)
+    #     events.append(data["payload"])
+    
+    return events, 200
+
 # Set up the Connexion application and link the OpenAPI specification
 # app = connexion.FlaskApp(__name__, specification_dir="./")
 app.add_api("openapi.yaml", base_path="/analyzer", strict_validation=True, validate_responses=True)

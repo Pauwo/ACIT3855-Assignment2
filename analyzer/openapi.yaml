@@ -135,6 +135,40 @@ paths:
                 properties:
                   message:
                     type: string
+  /events:
+    get:
+      summary: Gets a list of events
+      operationId: app.get_events
+      description: Retrieves a list of event IDs and trace IDs from the database.
+      responses:
+        '200':
+          description: Successfully returned a list of events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    event_id:
+                      type: string
+                      description: The event identifier.
+                    trace_id:
+                      type: integer
+                      description: The trace identifier.
+                    type:
+                      type: string
+                      description: The type of event.
+                      example: flight_schedule
+        '404':
+          description: No events found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 
 components:
   schemas:

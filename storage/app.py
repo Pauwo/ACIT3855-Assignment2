@@ -207,6 +207,67 @@ def get_passenger_checkins(start_timestamp, end_timestamp):
         logger.error(f"Error retrieving passenger check-ins: {str(e)}")
         return {"error": str(e)}, 500
 
+def get_count():
+    """
+    GET /count
+    Retrieves the count of flight schedules and passenger check-ins in the database.
+    """
+    try:
+        session = make_session()
+        flight_schedule_count = session.query(FlightSchedule).count()
+        passenger_checkin_count = session.query(PassengerCheckin).count()
+        session.close()
+
+        result = {
+            "flight_schedule_count": flight_schedule_count,
+            "passenger_checkin_count": passenger_checkin_count
+        }
+        logger.info(f"Returning counts: {result}")
+        return result, 200
+    except Exception as e:
+        logger.error(f"Error retrieving counts: {str(e)}")
+        return {"error": str(e)}, 500
+    
+def get_events():
+    """
+    GET /events
+    Retrieves all events from the database.
+    """
+    try:
+        session = make_session()
+        flight_events = session.query(FlightSchedule).all()
+        checkin_events = session.query(PassengerCheckin).all()
+        session.close()
+
+        events = []
+        for flight in flight_events:
+            events.append({
+                "event_id": flight.flight_id,
+                "trace_id": flight.trace_id,
+                "type": "flight_schedule"
+            })
+        for checkin in checkin_events:
+            events.append({
+                "event_id": checkin.checkin_id,
+                "trace_id": checkin.trace_id,
+                "type": "passenger_checkin"
+            })
+        logger.info(f"Returning {len(events)} events from database")
+        return events, 200
+
+        # # Convert results to JSON
+        # flight_schedule_data = [r.to_dict() for r in flight_schedules //flight_events]
+        # passenger_checkin_data = [r.to_dict() for r in passenger_checkins //checkin_events]
+
+        # result = {
+        #     "flight_schedules": flight_schedule_data,
+        #     "passenger_checkins": passenger_checkin_data
+        # }
+        # return result, 200
+
+    except Exception as e:
+        logger.error(f"Error retrieving events: {str(e)}")
+        return {"error": str(e)}, 500
 
 # Connexion app setup
 app = connexion.FlaskApp(__name__, specification_dir='')
