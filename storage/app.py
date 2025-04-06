@@ -242,18 +242,17 @@ def get_events():
         events = []
         for flight in flight_events:
             events.append({
-                "event_id": flight.id,
+                "event_id": str(flight.id),
                 "trace_id": flight.trace_id,
                 "type": "flight_schedule"
             })
         for checkin in checkin_events:
             events.append({
-                "event_id": checkin.id,
+                "event_id": str(checkin.id),
                 "trace_id": checkin.trace_id,
                 "type": "passenger_checkin"
             })
         logger.info(f"Returning {len(events)} events from database")
-        logger.info(f"Events: {events}")
         return events, 200
 
         # # Convert results to JSON
