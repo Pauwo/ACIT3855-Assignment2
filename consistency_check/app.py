@@ -80,8 +80,8 @@ def run_consistency_checks():
             "event2": analyzer_stats.get("num_passenger_checkins", 0)
         }
         storage_converted = {
-            "event1": storage_counts.get("flight_schedule", 0),
-            "event2": storage_counts.get("passenger_checkin", 0)
+            "event1": storage_counts.get("flight_schedule_count", 0),
+            "event2": storage_counts.get("passenger_checkin_count", 0)
         }
         
         # Compare events by trace_id (as strings for uniformity)
