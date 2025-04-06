@@ -13,7 +13,7 @@ with open("./config/test/consistency_check/log_conf.yml", "r") as f:
     logging.config.dictConfig(LOG_CONFIG)
 
 # Load application configuration from app_config.yml
-with open("./config/test/consistency_check/app_config.yml", "r") as f:
+with open("./config/test/consistency_check/app_conf.yml", "r") as f:
     APP_CONFIG = yaml.safe_load(f.read())
 
 
