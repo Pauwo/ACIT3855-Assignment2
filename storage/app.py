@@ -253,6 +253,7 @@ def get_events():
                 "type": "passenger_checkin"
             })
         logger.info(f"Returning {len(events)} events from database")
+        logger.info(f"Events: {events}")
         return events, 200
 
         # # Convert results to JSON
