@@ -177,6 +177,8 @@ def get_events():
     )
     
     events = []
+    event_id = 1 
+
     # for msg in consumer:
     #     message = msg.value.decode("utf-8")
     #     data = json.loads(message)
@@ -194,12 +196,23 @@ def get_events():
     #             "trace_id": data.get("trace_id"),
     #             "type": "passenger_checkin"
     #         })
+
+
+    # this was the original code
+    # for msg in consumer:
+    #     message = msg.value.decode("utf-8")
+    #     data = json.loads(message)
+    #     events.append(data["payload"])
+
     for msg in consumer:
         message = msg.value.decode("utf-8")
         data = json.loads(message)
-        events.append(data["payload"])
-        logger.info(f"Event: {data['payload']}")
-        logger.info(f"{data}")
+        payload = data.get("payload", {})
+        
+        payload['id'] = event_id
+        event_id += 1
+
+        events.append(payload)
     
     return events, 200
 
