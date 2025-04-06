@@ -23,6 +23,7 @@
         - /home/paulo/assignment2/data
         - /home/paulo/assignment2/logs
         - /home/paulo/assignment2/data/processing
+        - /home/paulo/assignment2/data/consistency_check
       become: true
 
     - name: Ensure event_stats.json has correct permissions
