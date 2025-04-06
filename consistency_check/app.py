@@ -21,7 +21,7 @@ with open("./config/test/consistency_check/app_conf.yml", "r") as f:
 PROCESSING_URL = APP_CONFIG['processing']['url']
 ANALYZER_URL = APP_CONFIG['analyzer']['url']
 STORAGE_URL = APP_CONFIG['storage']['url']
-JSON_DATASTORE = APP_CONFIG['json_datastore_filepath']
+JSON_DATASTORE = APP_CONFIG['datastore']['filename']
 
 # Create a logger instance
 logger = logging.getLogger('basicLogger')
