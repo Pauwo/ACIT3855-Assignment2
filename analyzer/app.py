@@ -198,6 +198,8 @@ def get_events():
         message = msg.value.decode("utf-8")
         data = json.loads(message)
         events.append(data["payload"])
+        logger.info(f"Event: {data['payload']}")
+        logger.info(f"{data}")
     
     return events, 200
 
