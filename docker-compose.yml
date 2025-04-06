@@ -162,6 +162,8 @@ services:
       - analyzer
       - processing
       - storage
+    ports:
+      - "8120:8120"
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
