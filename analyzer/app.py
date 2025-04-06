@@ -177,27 +177,27 @@ def get_events():
     )
     
     events = []
-    for msg in consumer:
-        message = msg.value.decode("utf-8")
-        data = json.loads(message)
-        if data.get("type") == "flight_schedule":
-            event_id = data.get("payload", {}).get("flight_id")
-            events.append({
-                "event_id": event_id,
-                "trace_id": data.get("trace_id"),
-                "type": "flight_schedule"
-            })
-        elif data.get("type") == "passenger_checkin":
-            event_id = data.get("payload", {}).get("checkin_id")
-            events.append({
-                "event_id": event_id,
-                "trace_id": data.get("trace_id"),
-                "type": "passenger_checkin"
-            })
     # for msg in consumer:
     #     message = msg.value.decode("utf-8")
     #     data = json.loads(message)
-    #     events.append(data["payload"])
+    #     if data.get("type") == "flight_schedule":
+    #         event_id = data.get("payload", {}).get("flight_id")
+    #         events.append({
+    #             "event_id": event_id,
+    #             "trace_id": data.get("trace_id"),
+    #             "type": "flight_schedule"
+    #         })
+    #     elif data.get("type") == "passenger_checkin":
+    #         event_id = data.get("payload", {}).get("checkin_id")
+    #         events.append({
+    #             "event_id": event_id,
+    #             "trace_id": data.get("trace_id"),
+    #             "type": "passenger_checkin"
+    #         })
+    for msg in consumer:
+        message = msg.value.decode("utf-8")
+        data = json.loads(message)
+        events.append(data["payload"])
     
     return events, 200
 
