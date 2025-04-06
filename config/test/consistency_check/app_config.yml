@@ -6,7 +6,7 @@ processing:
 analyzer:
   url: 'http://20.55.37.190/analyzer'
 storage:
-  url: 'http://storage:8090/storage'
+  url: 'http://20.55.37.190/storage'
 events:
   hostname: kafka
   port: 29092
