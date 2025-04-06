@@ -92,7 +92,7 @@ def run_consistency_checks():
         for event in analyzer_events:
             if str(event.get("trace_id")) not in storage_trace_ids:
                 not_in_db.append({
-                    "event_id": to_int(event.get("event_id")),
+                    "event_id": to_int(event.get("id")),
                     "trace_id": to_int(event.get("trace_id"))
                 })
         
