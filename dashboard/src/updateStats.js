@@ -7,6 +7,11 @@ const ANALYZER_API_URL = {
     passenger: "http://20.55.37.190/analyzer/passenger/checkin/random"
 }
 
+const CONSISTENCY_API_URL = {
+    update: "http://20.55.37.190/consistency_check/update",
+    checks: "http://20.55.37.190/consistency_check/checks"
+}
+
 // This function fetches and updates the general statistics
 const makeReq = (url, cb) => {
     fetch(url)
@@ -32,6 +37,25 @@ const getStats = () => {
     makeReq(ANALYZER_API_URL.passenger, (result) => updateCodeDiv(result, "event-passenger"))
 }
 
+const runConsistencyCheck = (event) => {
+    event.preventDefault()
+    // POST to run the consistency check update
+    fetch(CONSISTENCY_API_URL.update, { method: "POST" })
+        .then(res => res.json())
+        .then((result) => {
+            console.log("Consistency check update result:", result)
+            // After update, retrieve the latest consistency check results
+            return fetch(CONSISTENCY_API_URL.checks)
+        })
+        .then(res => res.json())
+        .then((result) => {
+            updateCodeDiv(result, "consistency-stats")
+        })
+        .catch((error) => {
+            updateErrorMessages(error.message)
+        })
+}
+
 const updateErrorMessages = (message) => {
     const id = Date.now()
     console.log("Creation", id)
@@ -49,6 +73,7 @@ const updateErrorMessages = (message) => {
 const setup = () => {
     getStats()
     setInterval(() => getStats(), 4000) // Update every 4 seconds
+    document.getElementById("consistency-form").addEventListener("submit", runConsistencyCheck)
 }
 
 document.addEventListener('DOMContentLoaded', setup)
