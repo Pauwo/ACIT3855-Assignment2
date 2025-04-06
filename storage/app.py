@@ -242,13 +242,13 @@ def get_events():
         events = []
         for flight in flight_events:
             events.append({
-                "event_id": flight.flight_id,
+                "event_id": flight.id,
                 "trace_id": flight.trace_id,
                 "type": "flight_schedule"
             })
         for checkin in checkin_events:
             events.append({
-                "event_id": checkin.checkin_id,
+                "event_id": checkin.id,
                 "trace_id": checkin.trace_id,
                 "type": "passenger_checkin"
             })
